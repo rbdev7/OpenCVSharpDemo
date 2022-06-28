@@ -4,9 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OpenCVSharpDemo"
+        xmlns:viewmodel="clr-namespace:OpenCVSharpDemo.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
 
+    <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="0" Content="Open File" Command="{Binding OpenFileCommand}" Width="60" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <!--<TextBlock Grid.Column="2" Text="{Binding FileName}"/>-->
+        <!--<Image Grid.Column="0" Source="{Binding , Mode=OneWay}" Stretch="Fill"/>-->
+        <!--<Image Grid.Column="2" Source="{Binding , Mode=OneWay}" Stretch="Fill"/>-->
     </Grid>
 </Window>

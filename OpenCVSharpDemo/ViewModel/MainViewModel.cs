@@ -19,6 +19,9 @@ namespace OpenCVSharpDemo.ViewModel
         Mat _img;
         Mat _imgWorking;
 
+        [ObservableProperty]
+        Boolean _isEnabled = false;
+
         public ImageSource Img 
         { 
             get 
@@ -53,6 +56,8 @@ namespace OpenCVSharpDemo.ViewModel
                 _imgWorking = Cv2.ImRead(_fileName);
                 OnPropertyChanged("Img");
                 OnPropertyChanged("ImgWorking");
+                _isEnabled = true;
+                OnPropertyChanged("IsEnabled");
             }
         }
 
@@ -61,6 +66,13 @@ namespace OpenCVSharpDemo.ViewModel
         {
             About about = new About();
             about.Show();
+        }
+
+        [ICommand]
+        void Blur()
+        {
+            Cv2.GaussianBlur(_img, _imgWorking, new OpenCvSharp.Size(29, 9), 0);
+            OnPropertyChanged("ImgWorking");
         }
 
         private ImageSource ConvertBitmapToImageSource(Bitmap imToConvert)

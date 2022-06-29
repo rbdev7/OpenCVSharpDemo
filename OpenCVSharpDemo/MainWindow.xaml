@@ -13,6 +13,7 @@
     </Window.DataContext>
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="1"/>
             <ColumnDefinition Width="*"/>
@@ -22,19 +23,23 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="1"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.ColumnSpan="3">
+        <Menu Grid.ColumnSpan="4">
             <MenuItem Header="_File">
                 <MenuItem Header="Open..." Command="{Binding OpenFileCommand}"/>
             </MenuItem>
             <MenuItem Header="About" Command="{Binding DisplayAboutCommand}"/>
         </Menu>
-        <!--<Button Grid.Row="0" Content="Open File" Command="{Binding OpenFileCommand}" Width="60" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
-        <!--<TextBlock Grid.Column="2" Text="{Binding FileName}"/>-->
-        <Label Grid.Column="0" Grid.Row="1" Content="Original" HorizontalContentAlignment="Center"/>
-        <Label Grid.Column="2" Grid.Row="1" Content="Working" HorizontalContentAlignment="Center"/>
-        <Image Grid.Column="0" Grid.Row="3" Source="{Binding Img, Mode=OneWay}" Stretch="Fill"/>
-        <Image Grid.Column="2" Grid.Row="3" Source="{Binding ImgWorking, Mode=OneWay}" Stretch="Fill"/>
+
+        <StackPanel Grid.Row="3" Margin="3">
+            <Button Content="Blur" Command="{Binding BlurCommand}" IsEnabled="{Binding IsEnabled}"/>
+        </StackPanel>
+        <Label Grid.Column="1" Grid.Row="1" Content="Original" HorizontalContentAlignment="Center"/>
+        <Label Grid.Column="3" Grid.Row="1" Content="Working" HorizontalContentAlignment="Center"/>
+        <Image Grid.Column="1" Grid.Row="3" Source="{Binding Img, Mode=OneWay}" Stretch="Fill"/>
+        <Image Grid.Column="3" Grid.Row="3" Source="{Binding ImgWorking, Mode=OneWay}" Stretch="Fill"/>
+        <Slider Grid.Column="1" Grid.Row="4" Width="200" Value="0" Maximum="99" TickPlacement="BottomRight" Ticks="0,1,3,5,7,9" Orientation="Horizontal" HorizontalAlignment="Left"/>
     </Grid>
 </Window>

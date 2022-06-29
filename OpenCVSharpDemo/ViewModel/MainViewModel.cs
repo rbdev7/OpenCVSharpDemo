@@ -17,6 +17,7 @@ namespace OpenCVSharpDemo.ViewModel
         //[ObservableProperty]
         string _fileName = "";
         Mat _img;
+        Mat _imgWorking;
 
         public ImageSource Img 
         { 
@@ -26,6 +27,16 @@ namespace OpenCVSharpDemo.ViewModel
                     return ConvertBitmapToImageSource(_img.ToBitmap());
                 return null;
             } 
+        }
+
+        public ImageSource ImgWorking
+        {
+            get
+            {
+                if (_imgWorking is not null && _imgWorking.Width > 0 && _imgWorking.Height > 0)
+                    return ConvertBitmapToImageSource(_imgWorking.ToBitmap());
+                return null;
+            }
         }
 
         [ICommand]
@@ -39,7 +50,9 @@ namespace OpenCVSharpDemo.ViewModel
                 _fileName = dialog.FileName;
                 //_img = new Mat(_fileName);
                 _img = Cv2.ImRead(_fileName);
+                _imgWorking = Cv2.ImRead(_fileName);
                 OnPropertyChanged("Img");
+                OnPropertyChanged("ImgWorking");
             }
         }
 

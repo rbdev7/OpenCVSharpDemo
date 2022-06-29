@@ -21,6 +21,9 @@ namespace OpenCVSharpDemo.ViewModel
 
         [ObservableProperty]
         Boolean _isEnabled = false;
+        [ObservableProperty]
+        int _blurValue = 7;
+        
 
         public ImageSource Img 
         { 
@@ -71,8 +74,12 @@ namespace OpenCVSharpDemo.ViewModel
         [ICommand]
         void Blur()
         {
-            Cv2.GaussianBlur(_img, _imgWorking, new OpenCvSharp.Size(29, 9), 0);
-            OnPropertyChanged("ImgWorking");
+            // Blur value needs to be odd.
+            if (_blurValue % 2 > 0)
+            {
+                Cv2.GaussianBlur(_img, _imgWorking, new OpenCvSharp.Size(_blurValue, _blurValue), 0);
+                OnPropertyChanged("ImgWorking");
+            }
         }
 
         private ImageSource ConvertBitmapToImageSource(Bitmap imToConvert)

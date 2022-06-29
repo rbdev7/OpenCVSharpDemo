@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using OpenCVSharpDemo.View;
 
 namespace OpenCVSharpDemo.ViewModel
 {
@@ -40,6 +41,13 @@ namespace OpenCVSharpDemo.ViewModel
                 _img = Cv2.ImRead(_fileName);
                 OnPropertyChanged("Img");
             }
+        }
+
+        [ICommand]
+        void DisplayAbout()
+        {
+            About about = new About();
+            about.Show();
         }
 
         private ImageSource ConvertBitmapToImageSource(Bitmap imToConvert)

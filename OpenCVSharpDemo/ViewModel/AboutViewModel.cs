@@ -22,8 +22,15 @@ namespace OpenCVSharpDemo.ViewModel
         {
             StringBuilder sb = new StringBuilder();
             sb.Append($"Name: {Assembly.GetExecutingAssembly().GetName().Name}\n");
-            sb.Append($"Version: {Assembly.GetExecutingAssembly().GetName().Version.ToString()}");
-            
+            // Set the author name in settings as there is no way to get the author name from csproj.
+            sb.Append($"Author: {Properties.Settings.Default.Properties["Author"].DefaultValue}\n");
+            sb.Append($"Version: {Assembly.GetExecutingAssembly().GetName().Version.ToString()}\n\n");
+            // System.Reflection.AssemblyDescriptionAttribute
+            sb.Append($"Description: {Assembly.GetExecutingAssembly().GetCustomAttribute<System.Reflection.AssemblyDescriptionAttribute>().Description}");
+
+            //foreach (var attribute in Assembly.GetExecutingAssembly().CustomAttributes)
+            //    sb.Append($"Attribute: {attribute}\n");
+
             _appInfo = sb.ToString();
         }
 

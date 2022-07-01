@@ -21,9 +21,20 @@ namespace OpenCVSharpDemo.ViewModel
 
         [ObservableProperty]
         Boolean _isEnabled = false;
-        [ObservableProperty]
-        int _blurValue = 7;
-        
+
+        //[ObservableProperty]
+        //[AlsoNotifyCanExecuteFor(nameof(BlurCommand))]
+        int _blurValue = 1;
+
+        public int BlurValue
+        {
+            get => _blurValue;
+            set
+            {
+                _blurValue = value;
+                Blur();
+            }
+        }
 
         public ImageSource Img 
         { 
@@ -71,7 +82,6 @@ namespace OpenCVSharpDemo.ViewModel
             about.Show();
         }
 
-        [ICommand]
         void Blur()
         {
             // Blur value needs to be odd.

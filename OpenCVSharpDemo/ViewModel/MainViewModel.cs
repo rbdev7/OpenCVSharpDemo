@@ -26,6 +26,16 @@ namespace OpenCVSharpDemo.ViewModel
         //[AlsoNotifyCanExecuteFor(nameof(BlurCommand))]
         int _blurValue = 1;
 
+        public string FileName
+        {
+            get => _fileName;
+            set
+            {
+                _fileName = value;
+                LoadFile();
+            }
+        }
+
         public int BlurValue
         {
             get => _blurValue;
@@ -56,26 +66,36 @@ namespace OpenCVSharpDemo.ViewModel
             }
         }
 
-        [ICommand]
-        void OpenFile()
+        void LoadFile()
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.DefaultExt = ".png";
-            //dialog.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
-
-            bool? result = dialog.ShowDialog();
-            if (result != null && result == true)
-            {
-                _fileName = dialog.FileName;
-                //_img = new Mat(_fileName);
-                _img = Cv2.ImRead(_fileName);
-                _imgWorking = Cv2.ImRead(_fileName);
-                OnPropertyChanged("Img");
-                OnPropertyChanged("ImgWorking");
-                _isEnabled = true;
-                OnPropertyChanged("IsEnabled");
-            }
+            _img = Cv2.ImRead(_fileName);
+            _imgWorking = Cv2.ImRead(_fileName);
+            OnPropertyChanged("Img");
+            OnPropertyChanged("ImgWorking");
+            _isEnabled = true;
+            OnPropertyChanged("IsEnabled");
         }
+
+        //[ICommand]
+        //void OpenFile()
+        //{
+        //    OpenFileDialog dialog = new OpenFileDialog();
+        //    dialog.DefaultExt = ".png";
+        //    //dialog.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+
+        //    bool? result = dialog.ShowDialog();
+        //    if (result != null && result == true)
+        //    {
+        //        _fileName = dialog.FileName;
+        //        //_img = new Mat(_fileName);
+        //        _img = Cv2.ImRead(_fileName);
+        //        _imgWorking = Cv2.ImRead(_fileName);
+        //        OnPropertyChanged("Img");
+        //        OnPropertyChanged("ImgWorking");
+        //        _isEnabled = true;
+        //        OnPropertyChanged("IsEnabled");
+        //    }
+        //}
 
         [ICommand]
         void DisplayAbout()

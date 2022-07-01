@@ -28,7 +28,8 @@
 
         <Menu Grid.ColumnSpan="4">
             <MenuItem Header="_File">
-                <MenuItem Header="Open..." Command="{Binding OpenFileCommand}"/>
+                <!--<MenuItem Header="Open..." Command="{Binding OpenFileCommand}"/>-->
+                <MenuItem Header="Open..." Click="MenuItemOpen_Click"/>
             </MenuItem>
             <MenuItem Header="About" Command="{Binding DisplayAboutCommand}"/>
         </Menu>

@@ -60,6 +60,8 @@ namespace OpenCVSharpDemo.ViewModel
         void OpenFile()
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.DefaultExt = ".png";
+            //dialog.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
 
             bool? result = dialog.ShowDialog();
             if (result != null && result == true)

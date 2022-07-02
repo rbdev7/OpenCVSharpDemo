@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using OpenCVSharpDemo.ViewModel;
 using CommunityToolkit.Mvvm;
 using OpenCvSharp;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace OpenCVSharpDemo.Tests
 {
@@ -13,6 +15,7 @@ namespace OpenCVSharpDemo.Tests
     {
         MainViewModel mainViewModel;
         Mat testMat;
+        string testImageFilePath = "./Test Image/Dog.jpg";
 
         public MainViewModelTest()
         {
@@ -38,9 +41,31 @@ namespace OpenCVSharpDemo.Tests
             Assert.Equal(1, mainViewModel.BlurValue);
         }
 
+        [Fact]
+        public void InitialFilePathTest()
+        {
+            Assert.Equal("", mainViewModel.FilePath);
+        }
+
+        [Fact]
+        public void LoadFileEnableTest()
+        {
+            PropertyChangedEventArgs updated = null;
+            mainViewModel.PropertyChanged += (sender, args) =>
+            {
+                updated = args;
+            };
+
+            mainViewModel.FilePath = testImageFilePath;
+
+            Assert.NotNull(updated);
+            Assert.Equal(updated.PropertyName, nameof(mainViewModel.IsEnabled));
+        }
+
         //[Fact]
         //public void BlurCommandTest()
         //{
+        //    mainViewModel.
         //    mainViewModel.OpenFileCommand.Execute(null);
         //}
 

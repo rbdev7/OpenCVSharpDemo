@@ -48,7 +48,7 @@ namespace OpenCVSharpDemo
             bool? result = openFileDialog.ShowDialog();
             if (result != null && result == true)
             {
-                vm.FileName = openFileDialog.FileName;
+                vm.FilePath = openFileDialog.FileName;
             }
         }
     }

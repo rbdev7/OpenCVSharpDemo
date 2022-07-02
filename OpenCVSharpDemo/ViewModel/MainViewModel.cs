@@ -15,7 +15,7 @@ namespace OpenCVSharpDemo.ViewModel
     public partial class MainViewModel : ObservableObject
     {
         //[ObservableProperty]
-        string _fileName = "";
+        string _filePath = "";
         Mat _img;
         Mat _imgWorking;
 
@@ -26,12 +26,12 @@ namespace OpenCVSharpDemo.ViewModel
         //[AlsoNotifyCanExecuteFor(nameof(BlurCommand))]
         int _blurValue = 1;
 
-        public string FileName
+        public string FilePath
         {
-            get => _fileName;
+            get => _filePath;
             set
             {
-                _fileName = value;
+                _filePath = value;
                 LoadFile();
             }
         }
@@ -68,8 +68,8 @@ namespace OpenCVSharpDemo.ViewModel
 
         void LoadFile()
         {
-            _img = Cv2.ImRead(_fileName);
-            _imgWorking = Cv2.ImRead(_fileName);
+            _img = Cv2.ImRead(_filePath);
+            _imgWorking = Cv2.ImRead(_filePath);
             OnPropertyChanged("Img");
             OnPropertyChanged("ImgWorking");
             _isEnabled = true;

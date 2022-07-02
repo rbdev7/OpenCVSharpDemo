@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenCvSharp;
 using OpenCVSharpDemo.ViewModel;
-using CommunityToolkit.Mvvm;
-using OpenCvSharp;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace OpenCVSharpDemo.Tests
 {
@@ -60,6 +53,36 @@ namespace OpenCVSharpDemo.Tests
 
             Assert.NotNull(updated);
             Assert.Equal(updated.PropertyName, nameof(mainViewModel.IsEnabled));
+        }
+
+        [Fact]
+        public void LoadFileEmptyPathTest()
+        {
+            PropertyChangedEventArgs updated = null;
+            mainViewModel.PropertyChanged += (sender, args) =>
+            {
+                updated = args;
+            };
+
+            mainViewModel.FilePath = "";
+
+            Assert.NotNull(updated);
+            Assert.Equal(updated.PropertyName, nameof(mainViewModel.ErrorMessage));
+        }
+
+        [Fact]
+        public void LoadFileIncorrectPathTest()
+        {
+            PropertyChangedEventArgs updated = null;
+            mainViewModel.PropertyChanged += (sender, args) =>
+            {
+                updated = args;
+            };
+
+            mainViewModel.FilePath = "./not_a_path";
+            
+            Assert.NotNull(updated);
+            Assert.Equal(updated.PropertyName, nameof(mainViewModel.ErrorMessage));
         }
 
         //[Fact]

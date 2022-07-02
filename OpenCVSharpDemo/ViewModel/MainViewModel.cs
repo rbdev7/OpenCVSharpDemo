@@ -22,6 +22,9 @@ namespace OpenCVSharpDemo.ViewModel
         [ObservableProperty]
         Boolean _isEnabled = false;
 
+        [ObservableProperty]
+        string _errorMessage = "";
+
         //[ObservableProperty]
         //[AlsoNotifyCanExecuteFor(nameof(BlurCommand))]
         int _blurValue = 1;
@@ -31,8 +34,28 @@ namespace OpenCVSharpDemo.ViewModel
             get => _filePath;
             set
             {
-                _filePath = value;
-                LoadFile();
+                try
+                {
+                    _filePath = value;
+                    if (_filePath.EndsWith(".png") || _filePath.EndsWith(".bmp") || _filePath.EndsWith(".jpg") || _filePath.EndsWith(".jpeg") || _filePath.EndsWith(".gif"))
+                    {
+                        LoadFile();
+                    }
+                    else if (_filePath.Length > 0)
+                    {
+                        throw new FileFormatException();
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException();
+                    }
+                }
+                catch (Exception e)
+                {
+                    _errorMessage = e.Message;
+                    OnPropertyChanged("ErrorMessage");
+                }
+                
             }
         }
 

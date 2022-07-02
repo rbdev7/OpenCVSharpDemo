@@ -49,6 +49,13 @@ namespace OpenCVSharpDemo
             if (result != null && result == true)
             {
                 vm.FilePath = openFileDialog.FileName;
+
+                // Display an error message if file cannot be loaded.
+                if (vm.ErrorMessage is not null && vm.ErrorMessage != "")
+                {
+                    MessageBox.Show(vm.ErrorMessage, "Load File Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                    
             }
         }
     }

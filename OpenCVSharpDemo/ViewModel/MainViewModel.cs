@@ -28,6 +28,8 @@ namespace OpenCVSharpDemo.ViewModel
         //[ObservableProperty]
         //[AlsoNotifyCanExecuteFor(nameof(BlurCommand))]
         int _blurValue = 1;
+        int _sharpenValue = 1;
+        int _cannyThresholdValue = 1;
 
         public string FilePath
         {
@@ -67,6 +69,28 @@ namespace OpenCVSharpDemo.ViewModel
                 _blurValue = value;
                 Blur();
                 OnPropertyChanged(nameof(BlurValue));
+            }
+        }
+
+        public int SharpenValue
+        {
+            get => _sharpenValue;
+            set
+            {
+                _sharpenValue = value;
+                Sharpen();
+                OnPropertyChanged(nameof(SharpenValue));
+            }
+        }
+
+        public int CannyThresholdValue
+        {
+            get => _cannyThresholdValue;
+            set
+            {
+                _cannyThresholdValue = value;
+                ApplyCannyEdgeDetection();
+                OnPropertyChanged(nameof(CannyThresholdValue));
             }
         }
 
@@ -128,12 +152,37 @@ namespace OpenCVSharpDemo.ViewModel
             about.Show();
         }
 
+        [ICommand]
+        void ConvertToGrayscale()
+        {
+            Cv2.CvtColor(_img, _imgWorking, ColorConversionCodes.BGR2GRAY);
+            OnPropertyChanged("ImgWorking");
+        }
+
+        void ApplyCannyEdgeDetection()
+        {
+            Cv2.CvtColor(_img, _imgWorking, ColorConversionCodes.BGR2GRAY);
+            Cv2.Canny(_imgWorking, _imgWorking, _cannyThresholdValue, _cannyThresholdValue * 3);
+            OnPropertyChanged("ImgWorking");
+        }
+
         void Blur()
         {
             // Blur value needs to be odd.
             if (_blurValue % 2 > 0)
             {
                 Cv2.GaussianBlur(_img, _imgWorking, new OpenCvSharp.Size(_blurValue, _blurValue), 0);
+                OnPropertyChanged("ImgWorking");
+            }
+        }
+
+        void Sharpen()
+        {
+            // Sharpen value needs to be odd.
+            if (_sharpenValue % 2 > 0)
+            {
+                Cv2.GaussianBlur(_img, _imgWorking, new OpenCvSharp.Size(_sharpenValue, _sharpenValue), 0);
+                Cv2.AddWeighted(_img, 1.5, _imgWorking, -0.5, 0, _imgWorking);
                 OnPropertyChanged("ImgWorking");
             }
         }

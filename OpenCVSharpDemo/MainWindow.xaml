@@ -48,46 +48,61 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
+                <!--<RowDefinition Height="*"/>-->
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
-                <Label Margin="0,0,0,5">Gausian Blur</Label>
-                <StackPanel Orientation="Horizontal">
-                    <Slider Grid.Column="0" 
+            <StackPanel>
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
+                    <Label Margin="0,0,0,2">Gausian Blur</Label>
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Grid.Column="0" 
+                            Grid.Row="0" 
+                            Width="200"
+                            Value="{Binding BlurValue}"
+                            IsEnabled="{Binding IsEnabled}"
+                            Maximum="99" Minimum="1" 
+                            TickPlacement="BottomRight" 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Left"
+                            />
+                        <Label Content="{Binding BlurValue}" Padding="0,0,0,8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3">
+                    <Label Margin="0,0,0,2">Sharpen</Label>
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Grid.Column="0" 
                         Grid.Row="0" 
                         Width="200"
-                        Value="{Binding BlurValue}"
+                        Value="{Binding SharpenValue}"
                         IsEnabled="{Binding IsEnabled}"
                         Maximum="99" Minimum="1" 
                         TickPlacement="BottomRight" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Left"
                         />
-                    <Label Content="{Binding BlurValue}" Padding="0,0,0,8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Label Content="{Binding SharpenValue}" Padding="0,0,0,8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
                 </StackPanel>
-                
-            </StackPanel>
-            <StackPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3">
-                <Label Margin="0,0,0,5">Sharpen</Label>
-                <StackPanel Orientation="Horizontal">
+                <Label Content="Canny Edge Detection"/>
+                <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
                     <Slider Grid.Column="0" 
                     Grid.Row="0" 
                     Width="200"
-                    Value="1"
+                    Value="{Binding CannyThresholdValue}"
                     IsEnabled="{Binding IsEnabled}"
                     Maximum="99" Minimum="1" 
                     TickPlacement="BottomRight" 
                     Orientation="Horizontal" 
                     HorizontalAlignment="Left"
                     />
-                    <Label Content="{Binding BlurValue}" Padding="0,0,0,8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Label Content="{Binding CannyThresholdValue}" Padding="0,0,0,8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
-                
             </StackPanel>
+            
 
-            <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">
+            <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical">
                 <StackPanel.Resources>
                     <Style TargetType="RadioButton">
                         <Setter Property="Margin" Value="0,0,0,5"/>
@@ -95,19 +110,11 @@
                 </StackPanel.Resources>
                 <Label Grid.Column="0" Grid.Row="1" Content="Additional Filters"/>
                 <RadioButton Content="None" IsChecked="True" IsEnabled="{Binding IsEnabled}"/>
-                <RadioButton Content="Grayscale" IsEnabled="{Binding IsEnabled}"/>
-                <RadioButton Content="Canny Edge Detection" IsEnabled="{Binding IsEnabled}"/>
+                <RadioButton Content="Grayscale" Command="{Binding ConvertToGrayscaleCommand}" IsEnabled="{Binding IsEnabled}"/>
+                <!--<RadioButton Content="Canny Edge Detection" IsEnabled="{Binding IsEnabled}"/>-->
                 <RadioButton Content="Harris Corner Detection" IsEnabled="{Binding IsEnabled}"/>
-                <Slider Grid.Column="0" 
-                    Grid.Row="0" 
-                    Width="200"
-                    Value="1"
-                    IsEnabled="{Binding IsEnabled}"
-                    Maximum="99" Minimum="1" 
-                    TickPlacement="BottomRight" 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Left"
-                    />
+                
+                
             </StackPanel>
         </Grid>
     </Grid>

@@ -66,6 +66,7 @@ namespace OpenCVSharpDemo.ViewModel
             {
                 _blurValue = value;
                 Blur();
+                OnPropertyChanged(nameof(BlurValue));
             }
         }
 

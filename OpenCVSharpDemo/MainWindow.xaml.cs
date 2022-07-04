@@ -54,6 +54,7 @@ namespace OpenCVSharpDemo
                 if (vm.ErrorMessage is not null && vm.ErrorMessage != "")
                 {
                     MessageBox.Show(vm.ErrorMessage, "Load File Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    vm.ErrorMessage = "";
                 }
                     
             }

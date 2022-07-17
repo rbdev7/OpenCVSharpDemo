@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenCVSharpDemo.View;
+using OpenCVSharpDemo.Helper;
 
 namespace OpenCVSharpDemo.ViewModel
 {
@@ -99,7 +100,8 @@ namespace OpenCVSharpDemo.ViewModel
             get 
             {
                 if (_img is not null && _img.Width > 0 && _img.Height > 0)
-                    return ConvertBitmapToImageSource(_img.ToBitmap());
+                    return ViewModelHelper.ConvertBitmapToImageSource(_img.ToBitmap());
+                    //return ConvertBitmapToImageSource(_img.ToBitmap());
                 return null;
             } 
         }
@@ -109,7 +111,8 @@ namespace OpenCVSharpDemo.ViewModel
             get
             {
                 if (_imgWorking is not null && _imgWorking.Width > 0 && _imgWorking.Height > 0)
-                    return ConvertBitmapToImageSource(_imgWorking.ToBitmap());
+                    return ViewModelHelper.ConvertBitmapToImageSource(_imgWorking.ToBitmap());
+                //return ConvertBitmapToImageSource(_imgWorking.ToBitmap());
                 return null;
             }
         }
@@ -187,21 +190,21 @@ namespace OpenCVSharpDemo.ViewModel
             }
         }
 
-        private ImageSource ConvertBitmapToImageSource(Bitmap imToConvert)
-        {
-            Bitmap bmp = new Bitmap(imToConvert);
-            MemoryStream ms = new MemoryStream();
-            bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+        //private ImageSource ConvertBitmapToImageSource(Bitmap imToConvert)
+        //{
+        //    Bitmap bmp = new Bitmap(imToConvert);
+        //    MemoryStream ms = new MemoryStream();
+        //    bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
 
-            BitmapImage image = new BitmapImage();
-            image.BeginInit();
-            ms.Seek(0, SeekOrigin.Begin);
-            image.StreamSource = ms;
-            image.EndInit();
+        //    BitmapImage image = new BitmapImage();
+        //    image.BeginInit();
+        //    ms.Seek(0, SeekOrigin.Begin);
+        //    image.StreamSource = ms;
+        //    image.EndInit();
 
-            ImageSource sc = (ImageSource)image;
+        //    ImageSource sc = (ImageSource)image;
 
-            return sc;
-        }
+        //    return sc;
+        //}
     }
 }

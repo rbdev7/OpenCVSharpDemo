@@ -52,7 +52,7 @@ namespace OpenCVSharpDemo.Tests
             mainViewModel.FilePath = testImageFilePath;
 
             Assert.NotNull(updated);
-            Assert.Equal(updated.PropertyName, nameof(mainViewModel.IsEnabled));
+            Assert.Equal(nameof(mainViewModel.IsEnabled), updated.PropertyName);
         }
 
         [Fact]
@@ -67,7 +67,7 @@ namespace OpenCVSharpDemo.Tests
             mainViewModel.FilePath = "";
 
             Assert.NotNull(updated);
-            Assert.Equal(updated.PropertyName, nameof(mainViewModel.ErrorMessage));
+            Assert.Equal(nameof(mainViewModel.ErrorMessage), updated.PropertyName);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace OpenCVSharpDemo.Tests
             mainViewModel.FilePath = "./not_a_path";
             
             Assert.NotNull(updated);
-            Assert.Equal(updated.PropertyName, nameof(mainViewModel.ErrorMessage));
+            Assert.Equal(nameof(mainViewModel.ErrorMessage), updated.PropertyName);
         }
 
         //[Fact]

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCVSharpDemo", "OpenCVSharpDemo\OpenCVSharpDemo.csproj", "{2115C682-38E2-4BC2-8FAB-13FF46DA54E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCVSharpDemo.Tests", "OpenCVSharpDemo.Tests\OpenCVSharpDemo.Tests.csproj", "{F04810B7-DF99-4420-A1B4-E28DC1A245D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2115C682-38E2-4BC2-8FAB-13FF46DA54E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2115C682-38E2-4BC2-8FAB-13FF46DA54E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2115C682-38E2-4BC2-8FAB-13FF46DA54E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F04810B7-DF99-4420-A1B4-E28DC1A245D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F04810B7-DF99-4420-A1B4-E28DC1A245D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F04810B7-DF99-4420-A1B4-E28DC1A245D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F04810B7-DF99-4420-A1B4-E28DC1A245D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

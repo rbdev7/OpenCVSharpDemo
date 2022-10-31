@@ -1,0 +1,7 @@
+﻿Dotnet Version 6.0.302 breaks a build that uses Community Toolkit.
+Problem is with the code anlyiser creating duplicates of ICommand and IObservable.
+
+Fix
+Downgrade Dotnet SDK to version 6.0.301:
+
+dotnet new globaljson --sdk-version 6.0.301

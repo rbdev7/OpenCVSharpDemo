@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using OpenCVSharpDemo.ViewModel;
 
 namespace OpenCVSharpDemo
 {
@@ -20,9 +22,42 @@ namespace OpenCVSharpDemo
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainViewModel vm;
         public MainWindow()
         {
             InitializeComponent();
+
+            // Set viewmodel datacontext
+            vm = new MainViewModel();
+            this.DataContext = vm;
+        }
+
+        /// <summary>
+        /// Method to display an OpenFileDialog.
+        /// 
+        /// This method is used in order to keep the OpenFileDialog within the view rather than the viewmodel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.DefaultExt = ".png";
+            //dialog.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+
+            bool? result = openFileDialog.ShowDialog();
+            if (result != null && result == true)
+            {
+                vm.FilePath = openFileDialog.FileName;
+
+                // Display an error message if file cannot be loaded.
+                if (vm.ErrorMessage is not null && vm.ErrorMessage != "")
+                {
+                    MessageBox.Show(vm.ErrorMessage, "Load File Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    vm.ErrorMessage = "";
+                }
+                    
+            }
         }
     }
 }

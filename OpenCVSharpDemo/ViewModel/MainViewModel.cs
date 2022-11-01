@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenCVSharpDemo.View;
 using OpenCVSharpDemo.Helper;
+using System.Text.RegularExpressions;
 
 namespace OpenCVSharpDemo.ViewModel
 {
@@ -215,28 +216,36 @@ namespace OpenCVSharpDemo.ViewModel
             int apatureSize = 1;
             double k = 0.04d;
 
-            Cv2.CvtColor(_img, _imgWorking, ColorConversionCodes.BGR2GRAY);
-            Cv2.CornerHarris(_imgWorking, _imgWorking, blockSize, apatureSize, k);
+            // Create a working copy of the image.
+            Mat working = new Mat();
+            Cv2.CopyTo(_img, working);
 
-            Mat norm = new Mat(); 
-            Mat normScaled = new Mat();
+            Mat grey = new Mat();
+            Cv2.CvtColor(_img, grey, ColorConversionCodes.BGR2GRAY);
 
-            Cv2.Normalize(_imgWorking, norm, 0, 255, NormTypes.MinMax);
-            Cv2.ConvertScaleAbs(norm, normScaled);
+            Mat output = Mat.Zeros(_img.Size(), MatType.CV_32FC1);
+            Cv2.CornerHarris(grey, output, blockSize, apatureSize, k);
+
+            Mat outputNorm = new Mat(); 
+            //Mat outputNormScaled = new Mat();
+
+            Cv2.Normalize(output, outputNorm, 0, 255, NormTypes.MinMax,MatType.CV_32FC1,new Mat());
+            //Cv2.ConvertScaleAbs(outputNorm, outputNormScaled);
 
             // Apply circles at detected point
-            for(int i = 0; i < norm.Rows; i++)
+            for(int i = 0; i < outputNorm.Rows; i++)
             {
-                for(int j = 0; j < norm.Cols; j++)
+                for(int j = 0; j < outputNorm.Cols; j++)
                 {
-                    if(norm.At<float>(i,j) > _harrisThresholdValue)
+                    if(outputNorm.At<float>(i,j) > _harrisThresholdValue)
                     {
-                        Cv2.Circle(normScaled, new OpenCvSharp.Point(j, i),5,new OpenCvSharp.Scalar(0),2);
+                        Cv2.Circle(working, new OpenCvSharp.Point(j, i),5,new OpenCvSharp.Scalar(255,0,0),2,LineTypes.Link8,0);
                     }
                 }
             }
-
-            _imgWorking = normScaled;
+            
+            // Update the view.
+            _imgWorking = working;
             OnPropertyChanged("ImgWorking");
         }
 

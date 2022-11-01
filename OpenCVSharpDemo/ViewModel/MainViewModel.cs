@@ -174,6 +174,13 @@ namespace OpenCVSharpDemo.ViewModel
             OnPropertyChanged("ImgWorking");
         }
 
+        [ICommand]
+        void ResetWorkingImage()
+        {
+            _imgWorking = _img;
+            OnPropertyChanged("ImgWorking");
+        }
+
         void ApplyCannyEdgeDetection()
         {
             Cv2.CvtColor(_img, _imgWorking, ColorConversionCodes.BGR2GRAY);

@@ -85,6 +85,23 @@ namespace OpenCVSharpDemo.Tests
             Assert.Equal(nameof(mainViewModel.ErrorMessage), updated.PropertyName);
         }
 
+        [Fact]
+        public void HarrisThresholValueTest()
+        {
+            // Required to perform Harris corner detection.
+            mainViewModel.FilePath = testImageFilePath;
+
+            PropertyChangedEventArgs updated = null;
+            mainViewModel.PropertyChanged += (sender, args) =>
+            {
+                updated = args;
+            };
+
+            mainViewModel.HarrisThresholdValue = 2;
+
+            Assert.NotNull(updated);
+            Assert.Equal(nameof(mainViewModel.HarrisThresholdValue), updated.PropertyName);
+        }
         //[Fact]
         //public void BlurCommandTest()
         //{

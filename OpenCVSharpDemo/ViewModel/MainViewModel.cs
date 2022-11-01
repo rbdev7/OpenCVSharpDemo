@@ -31,6 +31,7 @@ namespace OpenCVSharpDemo.ViewModel
         int _blurValue = 1;
         int _sharpenValue = 1;
         int _cannyThresholdValue = 1;
+        int _harrisThresholdValue = 200;
 
         public string FilePath
         {
@@ -92,6 +93,17 @@ namespace OpenCVSharpDemo.ViewModel
                 _cannyThresholdValue = value;
                 ApplyCannyEdgeDetection();
                 OnPropertyChanged(nameof(CannyThresholdValue));
+            }
+        }
+
+        public int HarrisThresholdValue
+        {
+            get => _harrisThresholdValue;
+            set
+            {
+                _harrisThresholdValue = value;
+                ApplyHarrisCornerDetecton();
+                OnPropertyChanged(nameof(HarrisThresholdValue));
             }
         }
 
@@ -188,6 +200,37 @@ namespace OpenCVSharpDemo.ViewModel
                 Cv2.AddWeighted(_img, 1.5, _imgWorking, -0.5, 0, _imgWorking);
                 OnPropertyChanged("ImgWorking");
             }
+        }
+
+        void ApplyHarrisCornerDetecton()
+        {
+            int blockSize = 2;
+            int apatureSize = 1;
+            double k = 0.04d;
+
+            Cv2.CvtColor(_img, _imgWorking, ColorConversionCodes.BGR2GRAY);
+            Cv2.CornerHarris(_imgWorking, _imgWorking, blockSize, apatureSize, k);
+
+            Mat norm = new Mat(); 
+            Mat normScaled = new Mat();
+
+            Cv2.Normalize(_imgWorking, norm, 0, 255, NormTypes.MinMax);
+            Cv2.ConvertScaleAbs(norm, normScaled);
+
+            // Apply circles at detected point
+            for(int i = 0; i < norm.Rows; i++)
+            {
+                for(int j = 0; j < norm.Cols; j++)
+                {
+                    if(norm.At<float>(i,j) > _harrisThresholdValue)
+                    {
+                        Cv2.Circle(normScaled, new OpenCvSharp.Point(j, i),5,new OpenCvSharp.Scalar(0),2);
+                    }
+                }
+            }
+
+            _imgWorking = normScaled;
+            OnPropertyChanged("ImgWorking");
         }
 
         //private ImageSource ConvertBitmapToImageSource(Bitmap imToConvert)

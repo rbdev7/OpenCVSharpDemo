@@ -56,7 +56,7 @@
 
             <StackPanel>
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
-                    <Label Margin="0,0,0,2">Gausian Blur</Label>
+                    <Label Margin="0,0,0,2">Gaussian Blur</Label>
                     <StackPanel Orientation="Horizontal">
                         <Slider Grid.Column="0" 
                             Grid.Row="0" 
@@ -101,6 +101,20 @@
                     />
                     <Label Content="{Binding CannyThresholdValue}" Padding="0,0,0,8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
+                <Label Content="Harris Corner Detection"/>
+                <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+                    <Slider Grid.Column="0" 
+                    Grid.Row="0" 
+                    Width="200"
+                    Value="{Binding HarrisThresholdValue}"
+                    IsEnabled="{Binding IsEnabled}"
+                    Maximum="600" Minimum="1" 
+                    TickPlacement="BottomRight" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Left"
+                    />
+                    <Label Content="{Binding HarrisThresholdValue}" Padding="0,0,0,8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
             </StackPanel>
             
 
@@ -111,10 +125,10 @@
                     </Style>
                 </StackPanel.Resources>
                 <Label Grid.Column="0" Grid.Row="1" Content="Additional Filters"/>
-                <RadioButton Content="None" IsChecked="True" IsEnabled="{Binding IsEnabled}"/>
+                <RadioButton Content="None" IsChecked="True" Command="{Binding ResetWorkingImageCommand}" IsEnabled="{Binding IsEnabled}"/>
                 <RadioButton Content="Grayscale" Command="{Binding ConvertToGrayscaleCommand}" IsEnabled="{Binding IsEnabled}"/>
                 <!--<RadioButton Content="Canny Edge Detection" IsEnabled="{Binding IsEnabled}"/>-->
-                <RadioButton Content="Harris Corner Detection" IsEnabled="{Binding IsEnabled}"/>
+                <!--<RadioButton Content="Harris Corner Detection" Command="{Binding HarrisCornerDetectorCommand}" IsEnabled="{Binding IsEnabled}"/>-->
                 
                 
             </StackPanel>

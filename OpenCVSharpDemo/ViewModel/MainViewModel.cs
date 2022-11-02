@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenCVSharpDemo.View;
 using OpenCVSharpDemo.Helper;
+using System.Text.RegularExpressions;
 
 namespace OpenCVSharpDemo.ViewModel
 {
@@ -31,6 +32,7 @@ namespace OpenCVSharpDemo.ViewModel
         int _blurValue = 1;
         int _sharpenValue = 1;
         int _cannyThresholdValue = 1;
+        int _harrisThresholdValue = 200;
 
         public string FilePath
         {
@@ -92,6 +94,17 @@ namespace OpenCVSharpDemo.ViewModel
                 _cannyThresholdValue = value;
                 ApplyCannyEdgeDetection();
                 OnPropertyChanged(nameof(CannyThresholdValue));
+            }
+        }
+
+        public int HarrisThresholdValue
+        {
+            get => _harrisThresholdValue;
+            set
+            {
+                _harrisThresholdValue = value;
+                ApplyHarrisCornerDetecton();
+                OnPropertyChanged(nameof(HarrisThresholdValue));
             }
         }
 
@@ -162,6 +175,13 @@ namespace OpenCVSharpDemo.ViewModel
             OnPropertyChanged("ImgWorking");
         }
 
+        [ICommand]
+        void ResetWorkingImage()
+        {
+            Cv2.CopyTo(_img, _imgWorking);
+            OnPropertyChanged("ImgWorking");
+        }
+
         void ApplyCannyEdgeDetection()
         {
             Cv2.CvtColor(_img, _imgWorking, ColorConversionCodes.BGR2GRAY);
@@ -188,6 +208,46 @@ namespace OpenCVSharpDemo.ViewModel
                 Cv2.AddWeighted(_img, 1.5, _imgWorking, -0.5, 0, _imgWorking);
                 OnPropertyChanged("ImgWorking");
             }
+        }
+
+        void ApplyHarrisCornerDetecton()
+        {
+            int blockSize = 2;
+            int apatureSize = 1;
+            double k = 0.04d;
+
+            // Create a working copy of the image.
+            Mat working = new Mat();
+            Cv2.CopyTo(_img, working);
+
+            Mat grey = new Mat();
+            Cv2.CvtColor(_img, grey, ColorConversionCodes.BGR2GRAY);
+
+            //Mat output = Mat.Zeros(_img.Size(), MatType.CV_32FC1);
+            Mat output = Mat.Zeros(_img.Size(), MatType.CV_8UC1);
+            Cv2.CornerHarris(grey, output, blockSize, apatureSize, k);
+
+            Mat outputNorm = new Mat(); 
+            //Mat outputNormScaled = new Mat();
+
+            Cv2.Normalize(output, outputNorm, 0, 255, NormTypes.MinMax,MatType.CV_32FC1,new Mat());
+            //Cv2.ConvertScaleAbs(outputNorm, outputNormScaled);
+
+            // Apply circles at detected point
+            for(int i = 0; i < outputNorm.Rows; i++)
+            {
+                for(int j = 0; j < outputNorm.Cols; j++)
+                {
+                    if(outputNorm.At<float>(i,j) > _harrisThresholdValue)
+                    {
+                        Cv2.Circle(working, new OpenCvSharp.Point(j, i),5,new OpenCvSharp.Scalar(255,0,0),2,LineTypes.Link8,0);
+                    }
+                }
+            }
+            
+            // Update the view.
+            _imgWorking = working;
+            OnPropertyChanged("ImgWorking");
         }
 
         //private ImageSource ConvertBitmapToImageSource(Bitmap imToConvert)

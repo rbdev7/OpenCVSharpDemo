@@ -17,6 +17,20 @@ namespace OpenCVSharpDemo.Tests
         }
 
         [Fact]
+        public void ViewModelCommandsInitalisedTest()
+        {
+            Assert.NotNull(mainViewModel.ConvertToGrayscaleCommand);
+            Assert.NotNull(mainViewModel.DisplayAboutCommand);
+            Assert.NotNull(mainViewModel.ResetWorkingImageCommand);
+        }
+
+        [Fact]
+        public void IsEnabledInitalisedToFalse()
+        {
+            Assert.False(mainViewModel.IsEnabled);
+        }
+
+        [Fact]
         public void ImgIsNullTest()
         {
             Assert.Null(mainViewModel.Img);
@@ -35,6 +49,24 @@ namespace OpenCVSharpDemo.Tests
         }
 
         [Fact]
+        public void InitialSharpenValueTest()
+        {
+            Assert.Equal(1, mainViewModel.SharpenValue);
+        }
+
+        [Fact]
+        public void InitialCannyThresholdValueTest()
+        {
+            Assert.Equal(1, mainViewModel.CannyThresholdValue);
+        }
+
+        [Fact]
+        public void InitialHarrisThresholdValueTest()
+        {
+            Assert.Equal(200, mainViewModel.HarrisThresholdValue);
+        }
+
+        [Fact]
         public void InitialFilePathTest()
         {
             Assert.Equal("", mainViewModel.FilePath);
@@ -49,10 +81,13 @@ namespace OpenCVSharpDemo.Tests
                 updated = args;
             };
 
+            Assert.Equal("", mainViewModel.FilePath);
+
             mainViewModel.FilePath = testImageFilePath;
 
             Assert.NotNull(updated);
             Assert.Equal(nameof(mainViewModel.IsEnabled), updated.PropertyName);
+            Assert.Equal(testImageFilePath, mainViewModel.FilePath);
         }
 
         [Fact]
@@ -86,7 +121,61 @@ namespace OpenCVSharpDemo.Tests
         }
 
         [Fact]
-        public void HarrisThresholValueTest()
+        public void BlurValueChangedTest()
+        {
+            // Required to perform Harris corner detection.
+            mainViewModel.FilePath = testImageFilePath;
+
+            PropertyChangedEventArgs updated = null;
+            mainViewModel.PropertyChanged += (sender, args) =>
+            {
+                updated = args;
+            };
+
+            mainViewModel.BlurValue = 2;
+
+            Assert.NotNull(updated);
+            Assert.Equal(nameof(mainViewModel.BlurValue), updated.PropertyName);
+        }
+
+        [Fact]
+        public void SharpenValueChangedTest()
+        {
+            // Required to perform Harris corner detection.
+            mainViewModel.FilePath = testImageFilePath;
+
+            PropertyChangedEventArgs updated = null;
+            mainViewModel.PropertyChanged += (sender, args) =>
+            {
+                updated = args;
+            };
+
+            mainViewModel.SharpenValue = 2;
+
+            Assert.NotNull(updated);
+            Assert.Equal(nameof(mainViewModel.SharpenValue), updated.PropertyName);
+        }
+
+        [Fact]
+        public void CannyThresholdValueChangedTest()
+        {
+            // Required to perform Harris corner detection.
+            mainViewModel.FilePath = testImageFilePath;
+
+            PropertyChangedEventArgs updated = null;
+            mainViewModel.PropertyChanged += (sender, args) =>
+            {
+                updated = args;
+            };
+
+            mainViewModel.CannyThresholdValue = 2;
+
+            Assert.NotNull(updated);
+            Assert.Equal(nameof(mainViewModel.CannyThresholdValue), updated.PropertyName);
+        }
+
+        [Fact]
+        public void HarrisThresholValueChangedTest()
         {
             // Required to perform Harris corner detection.
             mainViewModel.FilePath = testImageFilePath;
@@ -102,12 +191,6 @@ namespace OpenCVSharpDemo.Tests
             Assert.NotNull(updated);
             Assert.Equal(nameof(mainViewModel.HarrisThresholdValue), updated.PropertyName);
         }
-        //[Fact]
-        //public void BlurCommandTest()
-        //{
-        //    mainViewModel.
-        //    mainViewModel.OpenFileCommand.Execute(null);
-        //}
 
     }
 }

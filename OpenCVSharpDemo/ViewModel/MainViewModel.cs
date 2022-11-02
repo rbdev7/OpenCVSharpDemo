@@ -178,7 +178,7 @@ namespace OpenCVSharpDemo.ViewModel
         [ICommand]
         void ResetWorkingImage()
         {
-            _imgWorking = _img;
+            Cv2.CopyTo(_img, _imgWorking);
             OnPropertyChanged("ImgWorking");
         }
 
@@ -223,7 +223,8 @@ namespace OpenCVSharpDemo.ViewModel
             Mat grey = new Mat();
             Cv2.CvtColor(_img, grey, ColorConversionCodes.BGR2GRAY);
 
-            Mat output = Mat.Zeros(_img.Size(), MatType.CV_32FC1);
+            //Mat output = Mat.Zeros(_img.Size(), MatType.CV_32FC1);
+            Mat output = Mat.Zeros(_img.Size(), MatType.CV_8UC1);
             Cv2.CornerHarris(grey, output, blockSize, apatureSize, k);
 
             Mat outputNorm = new Mat(); 
